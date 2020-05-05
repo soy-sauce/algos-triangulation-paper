@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  </head>
+
+  <body>
+<div style="text-align:center">
+<h2>Voronoi Diagram and Delauney Triangulation</h2>
+<h3>By Iskender Akhemedov and Connie Zhou</h3>
+</div>
+<div id="observablehq-96a9ef30"></div>
+<div style="text-align:center">
+<button  onClick="window.location.reload()";>New Graph</button>
+</div>
+
+<div>
+<h4>information</h4>
+  </div>
+</body>
+<script type="module">
+  import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+  import define from "https://api.observablehq.com/@d3/hover-voronoi.js?v=3";
+  const inspect = Inspector.into("#observablehq-96a9ef30");
+  (new Runtime).module(define, name => (name === "canvas") && inspect());
+</script>
