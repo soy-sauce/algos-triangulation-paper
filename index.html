@@ -68,6 +68,7 @@ The following is a description of a merge of two Delaunay triangulations, G1 and
 <img src="./example/6.png" width="500" height="500">
 </br>
 5. Then, we create a circumcircle with vertices min(G1), min(G2), and L. If this circumcircle does not contain R, we connect min(G2) to L, since a circumcircle with no points inside defines a delaunay triangle. We also know no points from G2 are within this circumcircle, since R was the closest potential point. If the circumcircle does contain R, we know that R must be connected to min(G1) since 4 points guarantee an existence of a Delaunay triangle, and since Delaunay triangles are unique unless all 4 points form a circle, only 1 candidate will create a triangle with min(G1), min(G2). Choosing to form a circumcircle with L is completely arbitrary and forming a circle with R would perform the same task without loss of generality.</br>
+<img src="./example/7.png" width="500" height="500">
 <img src="./example/8.png" width="500" height="500">
 <img src="./example/9.png" width="500" height="500">
 </br>
