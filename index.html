@@ -6,17 +6,89 @@
 
   <body>
 <div style="text-align:center">
-<h2>Voronoi Diagram and Delauney Triangulation</h2>
-<h3>By Iskender Akhemedov and Connie Zhou</h3>
+<h2>Delauney Triangulations by Iskender Akhemedov and Connie Zhou</h2>
+<!--<h3>By Iskender Akhemedov and Connie Zhou</h3>-->
 </div>
 <div id="observablehq-96a9ef30"></div>
 <div style="text-align:center">
-<button  onClick="window.location.reload()";>New Graph</button>
+<!--<button  onClick="window.location.reload()";>New Graph</button>-->
 </div>
 
 <div>
-<h4>information</h4>
-  </div>
+<h4>The Problem</h4>
+<p>Create edges between a set of points such that any “network” distance between two points is only a factor of Euclidean distance of two points.
+Given a set of n points, construct a graph such that for any point Vi and Vj, the detour ratio
+t = d(G)(Vi, Vj)/d(E)(Vi, Vj) is a small constant.</p>
+
+<h4>Trivial solution</h4>
+<p>If we create a complete graph G connecting every point, we get a ratio t that is constant since all edges will have edges to each other. However this is expensive to store and maintain as we will have O(v2) edges.
+</p>
+
+<h3>So how can we create a subset of complete graph G such that the number of edges = O(V) and t = low constant? Enter Delaunay triangulations!
+</h3>
+
+<h4>Definition</h4>
+<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G do not contain any vertices of G inside. As a result, the Delaunay triangulation maximizes the smallest angle of G.
+
+While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
+
+</p>
+<p>TBA: Unique attributes and additional properties here </P>
+
+<h4>Algorithm</h4>
+<p>
+The algorithm defined hereafter is a divide and conquer type algorithm created by Guibas and Stolfi. </br>
+
+The algorithm has three major parts: </br></br>
+
+Ordering every point based on x-coordinate </br>
+Dividing points until a base case of 2-3 points is reached </br>
+Merging local Delaunay triangulations until all sub-graphs have been merged </br></br>
+
+The first part is a trivial sort, which can be done in O(nlogn) time.</br>
+The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored). At this step we can also find a min of each subset and store it locally - this can be done in constant time for every base case.</br>
+<img src="./example/1.png" width="500" height="500">
+<img src="./example/2.png"  width="500" height="500">
+</br>
+The third step is perhaps most complicated. Zipping two Delaunay triangulations together often involves removing some edges and always involves adding new edges.</br></br>
+
+</p>
+<p style="line-height:25px">
+The following is a description of a merge of two Delaunay triangulations, G1 and G2, into G3:</br></br>
+
+1. Using min(G1) and min(G2), we create a base edge E1 that will definitely be on the merged G3, because if min(G1) was to be connected to any other point on G2 creating edge E1’, then G2 connected to any other vertex on G1 that isn’t min(G1) will necessarily cross over E1’, disturbing the planarity of G3.</br>
+<img src="./example/3.png" width="500" height="500">
+</br>
+2. We then examine G1 for a potential candidate vertex L1 that might be connected to min(G2). We do this by stepping through vertices connected to min(G1), let’s call them set L, and forming circumcircles using min(G1), min(G2), and every point on set L. When we encounter a circumcircle that does not contain any vertices on the inside, that vertex within set L becomes L1.</br>
+
+3. Then, we check if there are any “bad edges” that intersect edges connecting G1 and G2 - we find these by checking if any edges form a smaller angle than angle min(G2), min(G1) and L1. Since we know L1 will be connected to G2 at some point, we have to remove these edges which will cross over the newly formed G1-G2 edge.</br>
+4. Steps 2 and 3 will be repeated on G2 to find candidate vertex R.</br>
+<img src="./example/4.png" width="500" height="500">
+<img src="./example/5.png" width="500" height="500">
+<img src="./example/6.png" width="500" height="500">
+</br>
+5. Then, we create a circumcircle with vertices min(G1), min(G2), and L. If this circumcircle does not contain R, we connect min(G2) to L, since a circumcircle with no points inside defines a delaunay triangle. We also know no points from G2 are within this circumcircle, since R was the closest potential point. If the circumcircle does contain R, we know that R must be connected to min(G1) since 4 points guarantee an existence of a Delaunay triangle, and since Delaunay triangles are unique unless all 4 points form a circle, only 1 candidate will create a triangle with min(G1), min(G2). Choosing to form a circumcircle with L is completely arbitrary and forming a circle with R would perform the same task without loss of generality.</br>
+<img src="./example/8.png" width="500" height="500">
+<img src="./example/9.png" width="500" height="500">
+</br>
+6. Find a new candidate on either G1 or G2 depending on which vertex was triangulated, and repeat step 5 with newly vertices on newly formed edge and L and R candidates (only one of which will be new).</br>
+<img src="./example/10.png" width="500" height="500">
+</br>
+7. Repeat until reaching max(G1), max (G2).</br>
+8. Remember to store new min(G3) = min(G1, G2)</br></br>
+<img src="./example/12.png" width="500" height="500">
+</br>
+This merge process will be repeated until all subgraphs have been merged into the final Delaunay triangulation</br>
+The recurrence equation for this algorithm is therefore:</br>
+T(n) = 2O(n/2) + n</br>
+Which, by master equation, produces a time complexity of O(nlogn)
+
+</p>
+
+
+<h4>Chew's Algorithm/Upper bound proof</h4>
+<p>TBA</P>
+
 </body>
 <script type="module">
   import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
