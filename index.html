@@ -57,7 +57,7 @@ The third step is perhaps most complicated. Zipping two Delaunay triangulations 
 The following is a description of a merge of two Delaunay triangulations, G1 and G2, into G3:</br></br>
 
 1. Using min(G1) and min(G2), we create a base edge E1 that will definitely be on the merged G3, because if min(G1) was to be connected to any other point on G2 creating edge E1’, then G2 connected to any other vertex on G1 that isn’t min(G1) will necessarily cross over E1’, disturbing the planarity of G3.</br>
-<img src="./example/3.png" width="500" height="500">
+<img src="./example/b1.png" width="500" height="500"><img src="./example/b2.png" width="500" height="500"><img src="./example/b3.png" width="500" height="500"><img src="./example/b4.png" width="500" height="500"><img src="./example/3.png" width="500" height="500">
 </br>
 2. We then examine G1 for a potential candidate vertex L1 that might be connected to min(G2). We do this by stepping through vertices connected to min(G1), let’s call them set L, and forming circumcircles using min(G1), min(G2), and every point on set L. We step through L in order of increasing angle, starting with vertex that forms the smallest angle with min(G1)-min(G2) When we encounter a circumcircle that does not contain any vertices on the inside, that vertex within set L becomes L1.</br>
 
