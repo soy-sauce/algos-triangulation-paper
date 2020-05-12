@@ -33,7 +33,21 @@ t = d(G)(Vi, Vj)/d(E)(Vi, Vj) is a small constant.</p>
 While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
 
 </p>
-<p>TBA: Unique attributes and additional properties here </P>
+<p>Unique attributes: maximizes the smallest angle - creates a “nice” looking graph</br>
+</br>
+Delaunay triangles are known as “well-shaped” due to fulfilling the empty circumcircle property - the ability to form a circumcircle with any triangle and having no vertices within that circle.
+There exists a degenerate case when 4 (or more) points exist on the same circumcircle, generating many possible Delaunay triangulations for the same set of points. These degenerate cases will be ignored in further study of Delaunay in this project.
+
+Delaunay can be extended to further dimensions. For example, a triangulation in 3D produces a tetrahedron which satisfies the empty circumsphere criterion instead. There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
+
+Compute the perpendicular bisectors from each of a Delaunay triangulation - these will form the edges of a Voronoi diagram
+Find the intersection of 3 perpendicular bisectors within each Delaunay triangle - this will form a vertex of a Voronoi diagram.
+Ensure every perpendicular bisector doesn’t extend past the intersection within each triangle - to form clear regions within a Voronoi [Stack Overflow]
+
+Et voila! These bisectors form a polyhedron around every vertex on the original Delaunay triangle. The most useful aspect of a Voronoi is that every region has the closest Euclidian distance to the original vertex on the Delaunay triangulation.
+
+
+</P>
 
 <h4>Algorithm</h4>
 <p>
@@ -93,6 +107,12 @@ Which, by master equation, produces a time complexity of O(nlogn)
 
 <h4>Chew's Algorithm/Upper bound proof</h4>
 <p>TBA</P>
+
+<h4>Applications</h4>
+<p>
+Delaunay, and more specifically it’s dual the Voronoi diagram, can be used in the real world to find closest regions to a specific point.
+This algorithm has found many uses in the real world, including hospital placement, aviation industry, and other infrastructure where finding the closest point to a region is very important. Some say the first use of Voronoi dates back to 1854, when a British doctor John Snow gathered data on individuals sick with cholera and after plotting data on a chart, realized that all fatalities were closest to a specific water source - which was found to be contaminated with the disease. [Irish Times]
+</p>
 
 </body>
 <script type="module">
