@@ -48,10 +48,10 @@ In other words, using a set of points as an input, construct a graph G such that
 <h4 style="font-weight: bold;">Trivial solution</h4>
 <p>If we create a complete graph G connecting every point, we get a ratio t that is constant, since every vertex will have an edge to any other vertex.
   Therefore, for any Vi and Vj, there will exist an edge Vi-Vj that has a weight equal to the Euclidean distance, i.e. d(G)(Vi, Vj) = d(E)(Vi, Vj).
-  However, this is expensive in terms of space complexity - in order to construct a complete graph G, we'd need to store O(V^2) edges.
+  However, this is expensive in terms of space complexity - in order to construct a complete graph G, we'd need to store O(n^2) edges.
 </p>
 
-<h3 style="font-weight: bold; font-size: 20px">So how can we create a subset of complete graph G where the number of edges = O(V) and t = small constant? Enter Delaunay triangulations!
+<h3 style="font-weight: bold; font-size: 20px">So how can we create a subset of complete graph G where the number of edges = O(n) and t = small constant? Enter Delaunay triangulations!
 </h3>
 
 <h4 style="font-weight: bold; font-size: 20px">Definition</h4>
