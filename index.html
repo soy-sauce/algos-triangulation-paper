@@ -33,16 +33,19 @@ In other words, using a set of points as an input, construct a graph G such that
 </h3>
 
 <h4>Definition</h4>
-<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. This minimizes the amount of sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. (to add quadrilateral with two circular options)
+<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. This minimizes the amount of triangles with two sharp angles, known as sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. Find more info in Maximum Minimum Angle section.
 
 While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
 
 </p>
 Delaunay triangles are known as “well-shaped” due to fulfilling the empty circumcircle property - the ability to form a circumcircle with any triangle and having no vertices within that circle.
-There exists a degenerate case when 4 (or more) points exist on the same circumcircle, generating many possible Delaunay triangulations for the same set of points. These degenerate cases will be ignored in further study of Delaunay in this project.
+There exists a degenerate case when 4 (or more) points exist on the same circumcircle, generating many possible Delaunay triangulations for the same set of points. These degenerate cases will be ignored in further study of Delaunay triangulations in this project.
 </br>
 </br>
-Delaunay can be extended to further dimensions. For example, a triangulation in 3D produces a tetrahedron which satisfies the empty circumsphere criterion instead. There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
+Delaunay can be extended to further dimensions. For example, a triangulation in 3D produces a tetrahedron which satisfies the empty circumsphere criterion instead. 
+</br>
+</br>
+There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
 </br>
 </br>
 Compute the perpendicular bisectors from each of a Delaunay triangulation - these will form the edges of a Voronoi diagram
