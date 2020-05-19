@@ -10,7 +10,9 @@
       float: left;
       margin: 0;
       text-align: center;
-      padding: 0;
+
+      padding-right: 400px;
+      padding-left: 200px;
   }
   h4 {
     font-weight: bold;
@@ -55,7 +57,7 @@ In other words, using a set of points as an input, construct a graph G such that
 </h3>
 
 <h4 style="font-weight: bold; font-size: 20px">Definition</h4>
-<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. 
+<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G.
   This minimizes the amount of triangles with two sharp angles, known as sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. Find more info in Maximizing Minimum Angle section.
 
 </p>
@@ -78,22 +80,22 @@ Additionally, the duality of a delaunay is a Voronoi digram. There are 3 steps t
 </br>
 <div class="row">
 <figure>
-<img src="./example/v1.png" width="450" height="450">
+<img src="./example/v1.png" width="500" height="500">
 <figcaption>Fig.1</figcaption>
 </figure>
 
 <figure>
-<img src="./example/v2-5.png"  width="450" height="450">
+<img src="./example/v2-5.png"  width="500" height="500">
 <figcaption>Fig.2</figcaption>
 </figure>
 
 <figure>
-<img src="./example/v3.png" width="450" height="450">
+<img src="./example/v3.png" width="500" height="500">
 <figcaption>Fig.3</figcaption>
 </figure>
 
 <figure>
-<img src="./example/v4.png"  width="450" height="450">
+<img src="./example/v4.png"  width="500" height="500">
 <figcaption>Fig.4</figcaption>
 </figure>
 
@@ -122,9 +124,9 @@ Ordering every point based on x-coordinate </br>
 Dividing points until a base case of 2-3 points is reached </br>
 Merging local Delaunay triangulations until all sub-graphs have been merged </br></br>
 
-The first part is a trivial sort, which can be done in O(nlogn) time. Fig 1 shows an ordered set of vertices labelled 1 through 9.</br>
-The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored). 
-Fig 2 shows the division of the vertices into two sets until a base case is reached - every base case is separated via a dotted line.
+The first part is a trivial sort, which can be done in O(nlogn) time. Fig 5 shows an ordered set of vertices labelled 1 through 9.</br>
+The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored).
+Fig 6 shows the division of the vertices into two sets until a base case is reached - every base case is separated via a dotted line.
 </br>
 
 </p>
@@ -132,12 +134,12 @@ Fig 2 shows the division of the vertices into two sets until a base case is reac
 
 <div class="row">
 <figure>
-<img src="./example/1.png" width="450" height="450">
+<img src="./example/1.png" width="500" height="500">
 <figcaption>Fig.5</figcaption>
 </figure>
 
 <figure>
-<img src="./example/2.png"  width="450" height="450">
+<img src="./example/2.png"  width="500" height="500">
 <figcaption>Fig.6</figcaption>
 </figure>
 
@@ -154,34 +156,35 @@ The third step is perhaps most complicated. Zipping two Delaunay triangulations 
 <p style="line-height:25px">
 The following is a description of a merge of two Delaunay triangulations, G1 (5,6) and G2 (7,8,9), into G3:</br></br>
 
-1. First, we need to find the base edge between G1 and G2 seen on Fig 7. The unique feature of this edge is that it's the lower convex hull edge between G1 and G2 (as we know, the outer edges on a triangulation on graph G form a convex hull of G). 
-This can be found in linear time, as we walk down both graphs, switching between a point on G1 or G2 as an "anchor" (similar to merge in the Kirkpatrick-Seidel algorithm), until we cannot walk down anymore points on both graphs. 
+1. First, we need to find the base edge between G1 and G2 seen on Fig 7. The unique feature of this edge is that it's the lower convex hull edge between G1 and G2 (as we know, the outer edges on a triangulation on graph G form a convex hull of G).
+This can be found in linear time, as we walk down both graphs, switching between a point on G1 or G2 as an "anchor" (similar to merge in the Kirkpatrick-Seidel algorithm), until we cannot walk down anymore points on both graphs.
 We start with an arbitrary point on one of the graphs - without loss of generality we picked vertex 6 on G1. Then, we scan starting from a vertical line upwards clockwise, hitting points on G2 as seen in Fig 8.
 When we reach a point tangent to the ray from vertex 6, and the ray does not intersect any edges in G2, we now switch and use the tangential vertex as an "anchor." In this case, that last vertex is vertex 9.
 We then perform the same process mirrored, and scan counterclockwise until we hit the tangential point, in this case vertex 5 as seen in Fig 9. Finally, scanning from vertex 5 yields no additional vertices, and we define our base edge to connect v5-v9, as seen on Fig 10.
 Using v5 and v9, we create a base edge E1 that will definitely be on the merged G3, because if v5 was to be connected to any other point on G2 creating edge E1’, then v9 connected to any other vertex on G1 that isn’t v5 will necessarily cross over E1’, disturbing the planarity of G3. This base edge is drawn in and labeled in Fig 11.</br>
 <div class="row">
 <figure>
-<img src="./example/b1.png" width="450" height="450">
+<img src="./example/b1.png" width="500" height="500">
 <figcaption>Fig.7</figcaption>
 </figure>
-
+</div>
+<div class="row">
 <figure>
-<img src="./example/b2.png"  width="450" height="450">
+<img src="./example/b2.png"  width="500" height="500">
 <figcaption>Fig.8</figcaption>
 </figure>
 
 <figure>
-<img src="./example/b3.png" width="450" height="450">
+<img src="./example/b3.png" width="500" height="500">
 <figcaption>Fig.9</figcaption>
 </figure>
 
 <figure>
-<img src="./example/b4.png"  width="450" height="450">
+<img src="./example/b4.png"  width="500" height="500">
 <figcaption>Fig.10</figcaption>
 </figure>
 <figure>
-<img src="./example/3.png"  width="450" height="450">
+<img src="./example/3.png"  width="500" height="500">
 <figcaption>Fig.11</figcaption>
 </figure>
 
@@ -191,26 +194,31 @@ Using v5 and v9, we create a base edge E1 that will definitely be on the merged 
 </br>
 <p style="opacity:0%"> asdasd</p>
 <p style="opacity:0%"> asdsad</p>
-2. We then examine G1 for a potential candidate vertex L that might be connected to v9. We do this by stepping through vertices connected to v5, and forming circumcircles using v5, v9, and every point connected to v5. 
-We step through in order of increasing angle, starting with vertex that forms the smallest angle with edge v5-v9. When we encounter a circumcircle that does not contain any vertices from G1 on the inside, that vertex becomes our candidate vertex L. 
+2. We then examine G1 for a potential candidate vertex L that might be connected to v9. We do this by stepping through vertices connected to v5, and forming circumcircles using v5, v9, and every point connected to v5.
+We step through in order of increasing angle, starting with vertex that forms the smallest angle with edge v5-v9. When we encounter a circumcircle that does not contain any vertices from G1 on the inside, that vertex becomes our candidate vertex L.
 In Fig 12, we see that the first candidate v6 satisfies the empty circumcircle condition and is labeled L.</br>
 3. Let's now examine G2 for a more complicated case - we want to find a candidate vertex R. We see that our initial scan from v9 results in v7 being first candidate. However, after forming a circumcircle as seen on Fig 13, we notice that there's a vertex v8 from G2 on the inside of the circle.
 Therefore, that vertex is not R. More importantly, the edge v9-v7 is a "bad edge" and must be removed before we proceed. We have to remove this edge because we know that there exists a candidate vertex R within the circumcircle that forms an empty circumcircle with edge v5-v9.
 Therefore, candidate R will form an edge with G1 - and this edge will intersect with current bad edge v9-v7, disturbing the planarity of G3.</br>
 4. We then continue scanning clockwise until we form a circumcircle without any other vertices from G2 inside - as seen on Fig 14, until we hit v8. This vertex is now the candidate vertex R.</br>
 <div class="row">
+
 <figure>
-<img src="./example/4.png" width="450" height="450">
+<img src="./example/4.png" width="500" height="500">
 <figcaption>Fig.12</figcaption>
 </figure>
 
-<figure>
-<img src="./example/5.png"  width="450" height="450">
+
+<figure style="margin-right:100;">
+<img src="./example/5.png"  width="500" height="500">
 <figcaption>Fig.13</figcaption>
 </figure>
 
+</div>
+
+<div class="row">
 <figure>
-<img src="./example/6.png" width="450" height="450">
+<img src="./example/6.png" width="500" height="500">
 <figcaption>Fig.14</figcaption>
 </figure>
 
@@ -219,24 +227,26 @@ Therefore, candidate R will form an edge with G1 - and this edge will intersect 
 </br>
 <p style="opacity:0%"> asdasd</p>
 <p style="opacity:0%"> asdsad</p>
-5. Now, we have 4 vertices as seen on Fig 15 - v5 and v9 which form the base edge, and one candidate vertex from each graph L and R respective. We create a circumcircle with vertices v5, v9, and L. 
-If this circumcircle were to not contain R, we connect L to v9, since a circumcircle with no points inside defines a Delaunay triangle - we've found an edge stemming from either v5/v9 to opposite graph, connecting G1-G2. 
-We know that no points from G2 are within this circumcircle to violate Delaunay triangulation, since R1 was the closest potential point to the circumcircle formed by the base edge and candidate L. 
-However, if the circumcircle v5, v9, and L does contain R, as seen on Fig 16, we know that R must be connected to v5. Since 4 points guarantee an existence of a Delaunay triangle, only 1 candidate will create a triangle with v5-v9. 
+5. Now, we have 4 vertices as seen on Fig 15 - v5 and v9 which form the base edge, and one candidate vertex from each graph L and R respective. We create a circumcircle with vertices v5, v9, and L.
+If this circumcircle were to not contain R, we connect L to v9, since a circumcircle with no points inside defines a Delaunay triangle - we've found an edge stemming from either v5/v9 to opposite graph, connecting G1-G2.
+We know that no points from G2 are within this circumcircle to violate Delaunay triangulation, since R1 was the closest potential point to the circumcircle formed by the base edge and candidate L.
+However, if the circumcircle v5, v9, and L does contain R, as seen on Fig 16, we know that R must be connected to v5. Since 4 points guarantee an existence of a Delaunay triangle, only 1 candidate will create a triangle with v5-v9.
 This is shown by drawing a circumcircle with v5, Rv9, and R, which will not contain L, and thus is a valid Delaunay triangle, as seen on Fig 17. In this step, choosing to form a circumcircle with L is completely arbitrary and forming a circle with R would perform the same task without loss of generality.</br>
 <div class="row">
 <figure>
-<img src="./example/7.png" width="450" height="450">
+<img src="./example/7.png" width="500" height="500">
 <figcaption>Fig.15</figcaption>
 </figure>
+</div>
 
+<div class="row">
 <figure>
-<img src="./example/8.png"  width="450" height="450">
+<img src="./example/8.png"  width="500" height="500">
 <figcaption>Fig.16</figcaption>
 </figure>
 
 <figure>
-<img src="./example/9.png" width="450" height="450">
+<img src="./example/9.png" width="500" height="500">
 <figcaption>Fig.17</figcaption>
 </figure>
 
@@ -245,11 +255,11 @@ This is shown by drawing a circumcircle with v5, Rv9, and R, which will not cont
 </br>
 <p style="opacity:0%"> asdasd</p>
 <p style="opacity:0%"> asdsad</p>
-6. Find a new candidate on either G1 or G2 depending on which vertex was connected to base edge, and repeat step 5 with the new vertex, in this case v8, since it was connected to the base edge. 
+6. Find a new candidate on either G1 or G2 depending on which vertex was connected to base edge, and repeat step 5 with the new vertex, in this case v8, since it was connected to the base edge.
 Here, instead of performing the process with v5 and v9, we will use v5 and v8 as seen on Fig 18. V9 has been fully triangulated for this iteration of the merge. When the new valid edge G1-G2 is formed, the process will repeat again.</br>
 <div class="row">
 <figure>
-<img src="./example/10.png" width="450" height="450">
+<img src="./example/10.png" width="500" height="500">
 <figcaption>Fig.18</figcaption>
 </figure>
 
@@ -263,7 +273,7 @@ Here, instead of performing the process with v5 and v9, we will use v5 and v8 as
 </br>
 <div class="row">
 <figure>
-<img src="./example/11.png" width="450" height="450">
+<img src="./example/11.png" width="500" height="500">
 <figcaption>Fig.19</figcaption>
 </figure>
 
@@ -282,25 +292,25 @@ Which, by master equation, produces a time complexity of O(nlogn)
 <h4 style="font-weight: bold; font-size: 20px">Maximizing the Minimum angle</h4>
 
 <p>
-Now, about the idea that Delaunay triangulation maximizes the minimum angle of the triangulation and reduces sliver triangles. Take a base case of a quaadrilateral with two possible triangulations, represented by dotted lines in Fig 20. 
-Each of the triangulations could be represented by a circumcircle formed using the edge constructed - one circle formed by a sliver triangle in Fig 21, and other formed by a more even triangle with larger minimum angle as seen in Fig 22. 
+Now, about the idea that Delaunay triangulation maximizes the minimum angle of the triangulation and reduces sliver triangles. Take a base case of a quadrilateral with two possible triangulations, represented by dotted lines in Fig 20.
+Each of the triangulations could be represented by a circumcircle formed using the edge constructed - one circle formed by a sliver triangle in Fig 21, and other formed by a more even triangle with larger minimum angle as seen in Fig 22.
 Delaunay triangulation will force the latter triangulation, as the former will create a broader circle encompassing one of the vertices. This showcases how Delaunay triangulation, by necessitating empty circumcircles, avoids sliver triangles and maximizes the minimum angle.</br></br>
-  
+
 </p>
 
 <div class="row">
 <figure>
-<img src="./example/maxmin1.png" width="450" height="450">
+<img src="./example/maxmin1.png" width="300" height="300">
 <figcaption>Fig.20</figcaption>
 </figure>
 
 <figure>
-<img src="./example/maxmin2.png"  width="450" height="450">
+<img src="./example/maxmin2.png"  width="300" height="300">
 <figcaption>Fig.21</figcaption>
 </figure>
 
 <figure>
-<img src="./example/maxmin3.png" width="450" height="450">
+<img src="./example/maxmin3.png" width="300" height="300">
 <figcaption>Fig.22</figcaption>
 </figure>
 
@@ -314,7 +324,7 @@ Delaunay triangulation will force the latter triangulation, as the former will c
 <h4 style="font-weight: bold; font-size: 20px">Applications</h4>
 <p>
 Delaunay, and more specifically it’s dual the Voronoi diagram, can be used in the real world to find closest regions to a specific point.
-This algorithm has found many uses in the real world, including hospital placement, aviation industry, and other infrastructure where finding the closest point to a region is very important. 
+This algorithm has found many uses in the real world, including hospital placement, aviation industry, and other infrastructure where finding the closest point to a region is very important.
 Some say the first use of Voronoi dates back to 1854, when a British doctor John Snow gathered data on individuals sick with cholera and after plotting data on a chart, realized that all fatalities were closest to a specific water source - which was found to be contaminated with the disease. [Irish Times]
 </p>
 
