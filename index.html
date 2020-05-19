@@ -33,7 +33,30 @@ t = d(G)(Vi, Vj)/d(E)(Vi, Vj) is a small constant.</p>
 While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
 
 </p>
-<p>TBA: Unique attributes and additional properties here </P>
+<p>Unique attributes: maximizes the smallest angle - creates a “nice” looking graph</br>
+</br>
+Delaunay triangles are known as “well-shaped” due to fulfilling the empty circumcircle property - the ability to form a circumcircle with any triangle and having no vertices within that circle.
+There exists a degenerate case when 4 (or more) points exist on the same circumcircle, generating many possible Delaunay triangulations for the same set of points. These degenerate cases will be ignored in further study of Delaunay in this project.
+</br>
+</br>
+Delaunay can be extended to further dimensions. For example, a triangulation in 3D produces a tetrahedron which satisfies the empty circumsphere criterion instead. There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
+</br>
+</br>
+Compute the perpendicular bisectors from each of a Delaunay triangulation - these will form the edges of a Voronoi diagram
+Find the intersection of 3 perpendicular bisectors within each Delaunay triangle - this will form a vertex of a Voronoi diagram.
+Ensure every perpendicular bisector doesn’t extend past the intersection within each triangle - to form clear regions within a Voronoi [Stack Overflow]
+</br>
+</br>
+<img src="./example/v1.png" width="350" height="350">
+<img src="./example/v2-5.png"  width="350" height="350">
+<img src="./example/v3.png" width="350" height="350">
+<img src="./example/v4.png"  width="350" height="350">
+</br>
+</br>
+Et voila! These bisectors form a polyhedron around every vertex on the original Delaunay triangle. The most useful aspect of a Voronoi is that every region has the closest Euclidian distance to the original vertex on the Delaunay triangulation.
+
+
+</P>
 
 <h4>Algorithm</h4>
 <p>
@@ -47,7 +70,7 @@ Merging local Delaunay triangulations until all sub-graphs have been merged </br
 
 The first part is a trivial sort, which can be done in O(nlogn) time.</br>
 The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored). At this step we can also find a min of each subset and store it locally - this can be done in constant time for every base case.</br>
-<img src="./example/1.png" width="500" height="500">
+z<img src="./example/1.png" width="500" height="500">
 <img src="./example/2.png"  width="500" height="500">
 </br>
 The third step is perhaps most complicated. Zipping two Delaunay triangulations together often involves removing some edges and always involves adding new edges.</br></br>
@@ -59,7 +82,11 @@ The following is a description of a merge of two Delaunay triangulations, G1 and
 1. First, we need to find the base edge between G1 and G2. The unique feature of this edge is that if we extend this edge to infinity, no points exist below the base edge. It lower convex hull edge between G1 and G2. This can be found in linear time, as we're simply down the points on either side (similar to merge in the Kirkpatrick-Seidel algorithm), until we cannot walk down anymore points on both graphs. We will name the two points on this base edge L0 and R0.
 
 1. Using L0 and R0, we create a base edge E1 that will definitely be on the merged G3, because if L0 was to be connected to any other point on G2 creating edge E1’, then R0 connected to any other vertex on G1 that isn’t L0 will necessarily cross over E1’, disturbing the planarity of G3.</br>
-<img src="./example/3.png" width="500" height="500">
+<img src="./example/b1.png" width="300" height="300">
+<img src="./example/b2.png" width="300" height="300">
+<img src="./example/b3.png" width="300" height="300">
+<img src="./example/b4.png" width="300" height="300">
+<img src="./example/3.png" width="300" height="300">
 </br>
 2. We then examine G1 for a potential candidate vertex L1 that might be connected to R0. We do this by stepping through vertices connected to L0, let’s call them set L, and forming circumcircles using L0, R0, and every point on set L. We step through L in order of increasing angle, starting with vertex that forms the smallest angle with edge L0-R0. When we encounter a circumcircle that does not contain any vertices on the inside, that vertex within set L becomes L1.</br>
 
@@ -89,8 +116,11 @@ Which, by master equation, produces a time complexity of O(nlogn)
 </p>
 
 
-<h4>Chew's Algorithm/Upper bound proof</h4>
-<p>TBA</P>
+<h4>Applications</h4>
+<p>
+Delaunay, and more specifically it’s dual the Voronoi diagram, can be used in the real world to find closest regions to a specific point.
+This algorithm has found many uses in the real world, including hospital placement, aviation industry, and other infrastructure where finding the closest point to a region is very important. Some say the first use of Voronoi dates back to 1854, when a British doctor John Snow gathered data on individuals sick with cholera and after plotting data on a chart, realized that all fatalities were closest to a specific water source - which was found to be contaminated with the disease. [Irish Times]
+</p>
 
 </body>
 <script type="module">
