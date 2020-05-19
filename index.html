@@ -1,10 +1,32 @@
 <!doctype html>
 <html lang="en">
 
+
+
 <head>
+  <style>
+  figure {
+      width: 25%;
+      float: left;
+      margin: 0;
+      text-align: center;
+      padding: 0;
+  }
+  h4 {
+    font-weight: bold;
+  }
+
+  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
 
-  <body>
+  <body style="margin: 50px;">
 <div style="text-align:center">
 <h2>Delauney Triangulations by Iskender Akhemedov and Connie Zhou</h2>
 <!--<h3>By Iskender Akhemedov and Connie Zhou</h3>-->
@@ -15,24 +37,24 @@
 </div>
 
 <div>
-<h4>The Problem</h4>
+<h4 style="font-weight: bold;">The Problem</h4>
 <p> Define d(G)(Vi, Vj) to denote the smallest distance between vertices Vi and Vj on graph G, where edge weights denote distance between the edge's vertices. In other words, d(G)(Vi, Vj) is a sum of edges on shortest path from Vi to Vj via edges of graph G.
-Define d(E)(Vi, Vj) to denote the Euclidean distance between points Vi and Vj. 
+Define d(E)(Vi, Vj) to denote the Euclidean distance between points Vi and Vj.
 Given a set of n points, construct a graph such that for any point Vi and Vj, the detour ratio
 t = d(G)(Vi, Vj)/d(E)(Vi, Vj) is a small constant.
 In other words, using a set of points as an input, construct a graph G such that any “network” distance between two points is a constant factor of the Euclidean distance of those two points.
 </p>
 
-<h4>Trivial solution</h4>
+<h4 style="font-weight: bold;">Trivial solution</h4>
 <p>If we create a complete graph G connecting every point, we get a ratio t that is constant, since every vertex will have an edge to any other vertex.
-  Therefore, for any Vi and Vj, there will exist an edge Vi-Vj that has a weight equal to the Euclidean distance, i.e. d(G)(Vi, Vj) = d(E)(Vi, Vj). 
+  Therefore, for any Vi and Vj, there will exist an edge Vi-Vj that has a weight equal to the Euclidean distance, i.e. d(G)(Vi, Vj) = d(E)(Vi, Vj).
   However, this is expensive in terms of space complexity - in order to construct a complete graph G, we'd need to store O(V^2) edges.
 </p>
 
-<h3>So how can we create a subset of complete graph G where the number of edges = O(V) and t = small constant? Enter Delaunay triangulations!
+<h3 style="font-weight: bold; font-size: 20px">So how can we create a subset of complete graph G where the number of edges = O(V) and t = small constant? Enter Delaunay triangulations!
 </h3>
 
-<h4>Definition</h4>
+<h4 style="font-weight: bold; font-size: 20px">Definition</h4>
 <p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. This minimizes the amount of triangles with two sharp angles, known as sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. Find more info in Maximum Minimum Angle section.
 
 While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
@@ -42,10 +64,10 @@ Delaunay triangles are known as “well-shaped” due to fulfilling the empty ci
 There exists a degenerate case when 4 (or more) points exist on the same circumcircle, generating many possible Delaunay triangulations for the same set of points. These degenerate cases will be ignored in further study of Delaunay triangulations in this project.
 </br>
 </br>
-Delaunay can be extended to further dimensions. For example, a triangulation in 3D produces a tetrahedron which satisfies the empty circumsphere criterion instead. 
+Delaunay can be extended to further dimensions. For example, a triangulation in 3D produces a tetrahedron which satisfies the empty circumsphere criterion instead.
 </br>
 </br>
-There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
+Additionally, the duality of a delaunay is a Voronoi digram. There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
 </br>
 </br>
 Compute the perpendicular bisectors from each of a Delaunay triangulation - these will form the edges of a Voronoi diagram
@@ -53,18 +75,43 @@ Find the intersection of 3 perpendicular bisectors within each Delaunay triangle
 Ensure every perpendicular bisector doesn’t extend past the intersection within each triangle - to form clear regions within a Voronoi [Stack Overflow]
 </br>
 </br>
-<img src="./example/v1.png" width="350" height="350">
-<img src="./example/v2-5.png"  width="350" height="350">
-<img src="./example/v3.png" width="350" height="350">
-<img src="./example/v4.png"  width="350" height="350">
+<div class="row">
+<figure>
+<img src="./example/v1.png" width="450" height="450">
+<figcaption>Fig.1</figcaption>
+</figure>
+
+<figure>
+<img src="./example/v2-5.png"  width="450" height="450">
+<figcaption>Fig.2</figcaption>
+</figure>
+
+<figure>
+<img src="./example/v3.png" width="450" height="450">
+<figcaption>Fig.3</figcaption>
+</figure>
+
+<figure>
+<img src="./example/v4.png"  width="450" height="450">
+<figcaption>Fig.4</figcaption>
+</figure>
+
 </br>
-</br>
+</div>
+
+
+
+<div>
+  <p style="opacity:0%"> asdasd</p>
+  <p style="opacity:0%"> asdsad</p>
+<p>
 Et voila! These bisectors form a polyhedron around every vertex on the original Delaunay triangle. The most useful aspect of a Voronoi is that every region has the closest Euclidian distance to the original vertex on the Delaunay triangulation.
 
-
 </P>
+</div>
 
-<h4>Algorithm</h4>
+<div>
+<h4 style="font-weight: bold; font-size: 20px">Algorithm</h4>
 <p>
 The algorithm defined hereafter is a divide and conquer type algorithm created by Guibas and Stolfi. </br>
 
@@ -76,9 +123,28 @@ Merging local Delaunay triangulations until all sub-graphs have been merged </br
 
 The first part is a trivial sort, which can be done in O(nlogn) time.</br>
 The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored). At this step we can also find a min of each subset and store it locally - this can be done in constant time for every base case.</br>
-z<img src="./example/1.png" width="500" height="500">
-<img src="./example/2.png"  width="500" height="500">
+
+</p>
+</div>
+
+<div class="row">
+<figure>
+<img src="./example/1.png" width="450" height="450">
+<figcaption>Fig.5</figcaption>
+</figure>
+
+<figure>
+<img src="./example/2.png"  width="450" height="450">
+<figcaption>Fig.6</figcaption>
+</figure>
+
+</div>
+
+
 </br>
+<p style="opacity:0%"> asdasd</p>
+<p style="opacity:0%"> asdsad</p>
+<p>
 The third step is perhaps most complicated. Zipping two Delaunay triangulations together often involves removing some edges and always involves adding new edges.</br></br>
 
 </p>
@@ -88,32 +154,111 @@ The following is a description of a merge of two Delaunay triangulations, G1 and
 1. First, we need to find the base edge between G1 and G2. The unique feature of this edge is that if we extend this edge to infinity, no points exist below the base edge. It lower convex hull edge between G1 and G2. This can be found in linear time, as we're simply down the points on either side (similar to merge in the Kirkpatrick-Seidel algorithm), until we cannot walk down anymore points on both graphs. We will name the two points on this base edge L0 and R0.
 
 1. Using L0 and R0, we create a base edge E1 that will definitely be on the merged G3, because if L0 was to be connected to any other point on G2 creating edge E1’, then R0 connected to any other vertex on G1 that isn’t L0 will necessarily cross over E1’, disturbing the planarity of G3.</br>
-<img src="./example/b1.png" width="300" height="300">
-<img src="./example/b2.png" width="300" height="300">
-<img src="./example/b3.png" width="300" height="300">
-<img src="./example/b4.png" width="300" height="300">
-<img src="./example/3.png" width="300" height="300">
+<div class="row">
+<figure>
+<img src="./example/b1.png" width="450" height="450">
+<figcaption>Fig.7</figcaption>
+</figure>
+
+<figure>
+<img src="./example/b2.png"  width="450" height="450">
+<figcaption>Fig.8</figcaption>
+</figure>
+
+<figure>
+<img src="./example/b3.png" width="450" height="450">
+<figcaption>Fig.9</figcaption>
+</figure>
+
+<figure>
+<img src="./example/b4.png"  width="450" height="450">
+<figcaption>Fig.10</figcaption>
+</figure>
+<figure>
+<img src="./example/3.png"  width="450" height="450">
+<figcaption>Fig.11</figcaption>
+</figure>
+
+</div>
+
+
 </br>
+<p style="opacity:0%"> asdasd</p>
+<p style="opacity:0%"> asdsad</p>
 2. We then examine G1 for a potential candidate vertex L1 that might be connected to R0. We do this by stepping through vertices connected to L0, let’s call them set L, and forming circumcircles using L0, R0, and every point on set L. We step through L in order of increasing angle, starting with vertex that forms the smallest angle with edge L0-R0. When we encounter a circumcircle that does not contain any vertices on the inside, that vertex within set L becomes L1.</br>
 
 3. As we step through set of vertices L, we check if there are any “bad edges” that intersect edges which will connect G1 and G2 - we find and remove these while stepping through set L. If any edges form a smaller angle than angle L0, R0, and L1, i.e. if any circumcircles that contain other vertices in G1 are formed while stepping through L, we will remove the edge from L0 to that point in L. Since we know L1 will be connected to G2 at some point, we have to remove edges from L0 to points with lower degree relative to L0-R0 than L1 as these edges will cross over the newly formed G1-G2 edge from L1.</br>
 4. Steps 2 and 3 will be repeated on G2 to find candidate vertex R1.</br>
-<img src="./example/4.png" width="500" height="500">
-<img src="./example/5.png" width="500" height="500">
-<img src="./example/6.png" width="500" height="500">
+<div class="row">
+<figure>
+<img src="./example/4.png" width="450" height="450">
+<figcaption>Fig.12</figcaption>
+</figure>
+
+<figure>
+<img src="./example/5.png"  width="450" height="450">
+<figcaption>Fig.13</figcaption>
+</figure>
+
+<figure>
+<img src="./example/6.png" width="450" height="450">
+<figcaption>Fig.14</figcaption>
+</figure>
+
+
+</div>
 </br>
+<p style="opacity:0%"> asdasd</p>
+<p style="opacity:0%"> asdsad</p>
 5. Then, we create a circumcircle with vertices L0, R0, and L1. If this circumcircle does not contain R, we connect R0 to L1, since a circumcircle with no points inside defines a delaunay triangle. We also know no points from G2 are within this circumcircle, since R1 was the closest potential point. If the circumcircle does contain R1, we know that R1 must be connected to L0 since 4 points guarantee an existence of a Delaunay triangle, and since Delaunay triangles are unique unless all 4 points form a circle, only 1 candidate will create a triangle with L0, R0. This is shown by drawing a circumcircle with L0, R0, and R1, which will not contain L1, and thus is a valid Delaunay triangle. Choosing to form a circumcircle with L1 is completely arbitrary and forming a circle with R1 would perform the same task without loss of generality.</br>
-<img src="./example/7.png" width="500" height="500">
-<img src="./example/8.png" width="500" height="500">
-<img src="./example/9.png" width="500" height="500">
+<div class="row">
+<figure>
+<img src="./example/7.png" width="450" height="450">
+<figcaption>Fig.15</figcaption>
+</figure>
+
+<figure>
+<img src="./example/8.png"  width="450" height="450">
+<figcaption>Fig.16</figcaption>
+</figure>
+
+<figure>
+<img src="./example/9.png" width="450" height="450">
+<figcaption>Fig.17</figcaption>
+</figure>
+
+
+</div>
 </br>
+<p style="opacity:0%"> asdasd</p>
+<p style="opacity:0%"> asdsad</p>
 6. Find a new candidate on either G1 or G2 depending on which vertex was triangulated, and repeat step 5 with newly vertices on newly formed edge and L and R candidates (only one of which will be new). Here, L0 and R0 will be replaced by two vertices on the newly formed edge between G1 and G2, and the process can be repeated again - removing any bad edges found and finding the next valid edge between G1 and G2.</br>
-<img src="./example/10.png" width="500" height="500">
+<div class="row">
+<figure>
+<img src="./example/10.png" width="450" height="450">
+<figcaption>Fig.18</figcaption>
+</figure>
+
+
+
+</div>
 </br>
+<p style="opacity:0%"> asdasd</p>
+<p style="opacity:0%"> asdsad</p>
 7. Repeat until no more points are available (i.e. all points connected to latest formed edge G1-G2 are below G1-G2).</br>
 </br>
-<img src="./example/12.png" width="500" height="500">
+<div class="row">
+<figure>
+<img src="./example/11.png" width="450" height="450">
+<figcaption>Fig.19</figcaption>
+</figure>
+
+
+
+</div>
 </br>
+<p style="opacity:0%"> asdasd</p>
+<p style="opacity:0%"> asdsad</p>
 This merge process will be repeated until all subgraphs have been merged into the final Delaunay triangulation</br>
 The recurrence equation for this algorithm is therefore:</br>
 T(n) = 2O(n/2) + n</br>
@@ -122,7 +267,7 @@ Which, by master equation, produces a time complexity of O(nlogn)
 </p>
 
 
-<h4>Applications</h4>
+<h4 style="font-weight: bold; font-size: 20px">Applications</h4>
 <p>
 Delaunay, and more specifically it’s dual the Voronoi diagram, can be used in the real world to find closest regions to a specific point.
 This algorithm has found many uses in the real world, including hospital placement, aviation industry, and other infrastructure where finding the closest point to a region is very important. Some say the first use of Voronoi dates back to 1854, when a British doctor John Snow gathered data on individuals sick with cholera and after plotting data on a chart, realized that all fatalities were closest to a specific water source - which was found to be contaminated with the disease. [Irish Times]
