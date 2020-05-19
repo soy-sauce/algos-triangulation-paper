@@ -16,25 +16,28 @@
 
 <div>
 <h4>The Problem</h4>
-<p>Create edges between a set of points such that any “network” distance between two points is only a factor of Euclidean distance of two points.
+<p> Define d(G)(Vi, Vj) to denote the smallest distance between vertices Vi and Vj on graph G, where edge weights denote distance between the edge's vertices. In other words, d(G)(Vi, Vj) is a sum of edges on shortest path from Vi to Vj via edges of graph G.
+Define d(E)(Vi, Vj) to denote the Euclidean distance between points Vi and Vj. 
 Given a set of n points, construct a graph such that for any point Vi and Vj, the detour ratio
-t = d(G)(Vi, Vj)/d(E)(Vi, Vj) is a small constant.</p>
-
-<h4>Trivial solution</h4>
-<p>If we create a complete graph G connecting every point, we get a ratio t that is constant since all edges will have edges to each other. However this is expensive to store and maintain as we will have O(v2) edges.
+t = d(G)(Vi, Vj)/d(E)(Vi, Vj) is a small constant.
+In other words, using a set of points as an input, construct a graph G such that any “network” distance between two points is a constant factor of the Euclidean distance of those two points.
 </p>
 
-<h3>So how can we create a subset of complete graph G such that the number of edges = O(V) and t = low constant? Enter Delaunay triangulations!
+<h4>Trivial solution</h4>
+<p>If we create a complete graph G connecting every point, we get a ratio t that is constant, since every vertex will have an edge to any other vertex.
+  Therefore, for any Vi and Vj, there will exist an edge Vi-Vj that has a weight equal to the Euclidean distance, i.e. d(G)(Vi, Vj) = d(E)(Vi, Vj). 
+  However, this is expensive in terms of space complexity - in order to construct a complete graph G, we'd need to store O(V^2) edges.
+</p>
+
+<h3>So how can we create a subset of complete graph G where the number of edges = O(V) and t = small constant? Enter Delaunay triangulations!
 </h3>
 
 <h4>Definition</h4>
-<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G do not contain any vertices of G inside. As a result, the Delaunay triangulation maximizes the smallest angle of G.
+<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. This minimizes the amount of sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. (to add quadrilateral with two circular options)
 
 While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
 
 </p>
-<p>Unique attributes: maximizes the smallest angle - creates a “nice” looking graph</br>
-</br>
 Delaunay triangles are known as “well-shaped” due to fulfilling the empty circumcircle property - the ability to form a circumcircle with any triangle and having no vertices within that circle.
 There exists a degenerate case when 4 (or more) points exist on the same circumcircle, generating many possible Delaunay triangulations for the same set of points. These degenerate cases will be ignored in further study of Delaunay in this project.
 </br>
