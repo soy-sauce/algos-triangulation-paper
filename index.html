@@ -55,9 +55,8 @@ In other words, using a set of points as an input, construct a graph G such that
 </h3>
 
 <h4 style="font-weight: bold; font-size: 20px">Definition</h4>
-<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. This minimizes the amount of triangles with two sharp angles, known as sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. Find more info in Maximum Minimum Angle section.
-
-While there are numerous possible triangulations for any graph, a Delaunay triangulation is unique for every point set, assuming general position - that is no 4 points are on the same circle.
+<p>A Delaunay Triangulation is a special type of triangulation where a circumcircle drawn around any 3 points forming a triangle inside of G does not contain any vertices of G. 
+  This minimizes the amount of triangles with two sharp angles, known as sliver triangles and as a result, the Delaunay triangulation maximizes the smallest angle of edges in G. Find more info in Maximizing Minimum Angle section.
 
 </p>
 Delaunay triangles are known as “well-shaped” due to fulfilling the empty circumcircle property - the ability to form a circumcircle with any triangle and having no vertices within that circle.
@@ -70,9 +69,11 @@ Delaunay can be extended to further dimensions. For example, a triangulation in 
 Additionally, the duality of a delaunay is a Voronoi digram. There are 3 steps to creating a Voronoi from an existing Delaunay triangulation:
 </br>
 </br>
-Compute the perpendicular bisectors from each of a Delaunay triangulation - these will form the edges of a Voronoi diagram
-Find the intersection of 3 perpendicular bisectors within each Delaunay triangle - this will form a vertex of a Voronoi diagram.
-Ensure every perpendicular bisector doesn’t extend past the intersection within each triangle - to form clear regions within a Voronoi [Stack Overflow]
+1. Starting with the Delunay triangulation shown in the first image, construct circumcircles using every triangle as shown in the second image - the blue dots represent centers of each circumcircle.
+</br>
+2. Extend perpendicular bisectors from each center of the circumcircle to the edge of the triangle the circle encloses - these will form the edges of a Voronoi diagram.
+</br>
+3. Find intersections of adjacent perpendicular bisectors - these will form vertices on the Voronoi diagram. [Stack Overflow]
 </br>
 </br>
 <div class="row">
@@ -105,7 +106,7 @@ Ensure every perpendicular bisector doesn’t extend past the intersection withi
   <p style="opacity:0%"> asdasd</p>
   <p style="opacity:0%"> asdsad</p>
 <p>
-Et voila! These bisectors form a polyhedron around every vertex on the original Delaunay triangle. The most useful aspect of a Voronoi is that every region has the closest Euclidian distance to the original vertex on the Delaunay triangulation.
+Et voila! These bisectors form a polyhedron around every vertex on the original Delaunay triangle. The most useful aspect of a Voronoi is that every region on the Voronoi diagram represents an area that's closer to the original vertex on the Delaunay than it is to any other vertex, in term of the Euclidean distance.
 
 </P>
 </div>
@@ -122,7 +123,7 @@ Dividing points until a base case of 2-3 points is reached </br>
 Merging local Delaunay triangulations until all sub-graphs have been merged </br></br>
 
 The first part is a trivial sort, which can be done in O(nlogn) time.</br>
-The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored). At this step we can also find a min of each subset and store it locally - this can be done in constant time for every base case.</br>
+The second part divides the point sets into 2 groups and recurses on each part, until every group is size 2-3. Creating a Delaunay triangulation of 2 or 3 points is trivial - 2 points always form an edge and 3 points always form a triangle (except for a degenerate case of 3 points forming a line which will be ignored). </br>
 
 </p>
 </div>
